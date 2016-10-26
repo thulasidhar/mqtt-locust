@@ -1,6 +1,4 @@
-import random
 import time
-import sys
 import ssl
 
 import paho.mqtt.client as mqtt
@@ -9,6 +7,7 @@ from locust import Locust, task, TaskSet, events
 REQUEST_TYPE = 'MQTT'
 MESSAGE_TYPE_PUB = 'PUB'
 MESSAGE_TYPE_SUB = 'SUB'
+
 
 def time_delta(t1, t2):
     return int((t2 - t1) * 1000)
@@ -32,6 +31,7 @@ class TimeoutError(ValueError):
 
 class ConnectError(Exception):
     pass
+
 
 class DisconnectError(Exception):
     pass
@@ -240,19 +240,16 @@ class MQTTLocust(Locust):
         if self.host is None:
             raise LocustError("You must specify a host")
 
-        #TODO: Current implementation sets an empty client_id when the connection is initialized,
-        #      which Paho handles by creating a random client_id. 
-        #		Ideally we want to control the client_id that is set in Paho. Each client_id
-        #		should match a thing_id in the AWS IoT Thing Registry
-        #self.client = MQTTClient(self.client_id)
         self.client = MQTTClient()
+        start_time = time.time()
         try:
             [host, port] = self.host.split(":")
         except:
             host, port = self.host, 8883
 
         try:
-          self.client.tls_set(self.ca_cert, self.iot_cert, self.iot_private_key, tls_version=ssl.PROTOCOL_TLSv1_2)
+          #self.client.tls_set(self.ca_cert, self.iot_cert, self.iot_private_key, tls_version=ssl.PROTOCOL_TLSv1_2)
+
           #It is important to do an asynchronous connect, given that we will have
           #multiple connections happening in a single server during a Locust test
           self.client.connect_async(host, port)
