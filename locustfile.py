@@ -22,7 +22,7 @@ class ThingBehavior(TaskSet):
     def pubqos0(self):
         topic = os.getenv('MQTT_TOPIC','')
         if topic == '':
-          raise ValueError("Please set environment variable MQTT_TOPIC")
+          topic = "locust/thing/temperature"
         self.client.publish(topic, payload=self.payload(), qos=0, name='publish:qos0:'+topic, timeout=PUBLISH_TIMEOUT)
 
     def on_start(self):
