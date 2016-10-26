@@ -45,8 +45,8 @@ class MyThing(MQTTLocust):
     ca_cert = os.getenv('CA_CERT','')
     iot_cert = os.getenv('IOT_CERT','')
     iot_private_key = os.getenv('IOT_PRIVATE_KEY','')
-    if ca_cert == '' or iot_cert == '' or iot_private_key == '': 
-      raise ValueError("Make sure the following environment variables are set: CA_CERT, IOT_CERT, IOT_PRIVATE_KEY")
+    #if ca_cert == '' or iot_cert == '' or iot_private_key == '': 
+      #raise ValueError("Make sure the following environment variables are set: CA_CERT, IOT_CERT, IOT_PRIVATE_KEY")
     task_set = ThingBehavior
     min_wait = 1000
     max_wait = 1500
